@@ -1,0 +1,161 @@
+.container {
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main {
+  padding: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.emptyCart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+
+  p {
+    font-size: 1.2rem;
+    color: var(--foreground);
+    opacity: 0.7;
+    margin: 0;
+  }
+}
+
+.cartItems {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+      align-items: stretch;
+
+  &:hover {
+    border-color: #000;
+  }
+}
+
+.itemImage {
+  flex-shrink: 0;
+}
+
+.productImage {
+  width: 262;
+  height: auto;
+}
+
+.itemInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 40px
+}
+
+.itemName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.itemDetails {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: var(--foreground);
+  opacity: 0.7;
+}
+
+.itemPrice {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.removeButton {
+  background: transparent;
+  color: #dd0000;
+  border-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 300;
+  font-size: 12px;
+  margin-right: auto;
+  margin-top: auto;
+  align-self: flex-end;
+  margin-bottom: 40px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  padding-top: 30px;
+  border-top: 1px solid #ccc;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.continueShopping {
+  padding: 12px 24px;
+  background: transparent;
+  color: #000;
+  border: 1px solid #000;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  text-align: center;
+
+  &:hover {
+    background: #000;
+    color: #fff;
+  }
+}
+
+.totalSection {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 80px;
+  align-items: center;
+}
+
+.totalRow {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.totalLabel,
+.totalPrice {
+  font-size:14px;
+  color: #000;
+}
+

@@ -1,0 +1,16 @@
+.searchbox {
+  border-top-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-bottom-width: 0.5px;
+  padding: 0.5rem;
+  width: 100%;
+
+  &::placeholder { 
+    color: #AAA;
+    font-family: "Helvetica Neue", "Helvetica Neue 55", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+  }
+}
+

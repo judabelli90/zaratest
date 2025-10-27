@@ -1,0 +1,33 @@
+.button {
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: "Helvetica Neue", "Helvetica Neue 55", Arial, sans-serif;
+  text-transform: uppercase;
+  padding: 20px 32px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 12px;
+  font-weight: 300;
+  transition: opacity 0.2s;
+  min-width: 260px;
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+
+  &.checkoutButtonDisabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.primary {
+  background: #000;
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: #333;
+  }
+}

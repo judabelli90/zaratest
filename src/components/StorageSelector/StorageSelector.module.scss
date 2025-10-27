@@ -1,0 +1,42 @@
+.storageSelector {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+}
+
+.storageList {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+
+.storageItem {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  border: 1px solid #CCC;
+  transition: border-color 0.2s;
+  cursor: pointer;
+  flex: 1;
+
+  &:hover {
+    border-color: #000;
+  }
+
+  &.storageItemSelected {
+    border-color: #000;
+    background: #000;
+    color: #fff;
+  }
+}
+
+.storageCapacity {
+  font-weight: 500;
+}
+
