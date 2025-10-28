@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Image from "next/image"
 import Link from "next/link"
 import { useAppContext } from '../../../context/AppContext'
-import { Header, ColorSelector, StorageSelector, ProductCard, SpecificationsList,LoadingSkeleton } from '@/components'
+import { Header, ColorSelector, StorageSelector, ProductCard, SpecificationsList,LoadingSkeleton, Button} from '@/components'
 import styles from './product.module.scss'
 
 interface ColorOption {
@@ -100,37 +100,45 @@ if (loading) {
   return (
     <div className={`container ${styles.container}`}>
       <Header />
+
+        <Button
+          className={styles.backButton}
+          variant="secondary"
+          onClick={() => router.back()}
+        >
+          Back
+        </Button>
       <main className={styles.main}>
-        <div className={styles.productDetail}>
-          <div className={styles.imageContainer}>
-            {/* Skeleton para la imagen del producto */}
-            <LoadingSkeleton width={400} height={400} borderRadius={12} />
-          </div>
+<div className={styles.productDetail}>
+  <div className={styles.imageContainer}>
+    <LoadingSkeleton width={600} height={600} borderRadius={12} />
+  </div>
+  <div className={styles.productInfo}>
+    <LoadingSkeleton width="60%" height={40} borderRadius={6} /> 
+    <LoadingSkeleton width="30%" height={25} borderRadius={6} style={{ marginTop: '1rem' }} /> 
+    
+    <div style={{ marginTop: '2rem' }}>
+      <LoadingSkeleton width="100%" height={50} borderRadius={8} />  {/* botón añadir */}
+      <LoadingSkeleton width="80%" height={40} borderRadius={6} style={{ marginTop: '1rem' }} />
+      <LoadingSkeleton width="80%" height={40} borderRadius={6} style={{ marginTop: '1rem' }} /> 
+    </div>
+  </div>
+</div>
 
-          <div className={styles.productInfo}>
-            <LoadingSkeleton width="70%" height={30} borderRadius={6} />
-            <LoadingSkeleton width="30%" height={25} borderRadius={6} style={{ marginTop: '1rem' }} />
-            <LoadingSkeleton width="100%" height={50} borderRadius={8} style={{ marginTop: '1.5rem' }} />
-            <LoadingSkeleton width="100%" height={50} borderRadius={8} style={{ marginTop: '1rem' }} />
-            <LoadingSkeleton width="50%" height={40} borderRadius={8} style={{ marginTop: '2rem' }} />
-          </div>
-        </div>
+{/* Similar products */}
+<div className={styles.similarProducts}>
+  <h3>Similar items</h3>
+  <div className={styles.similarList}>
+    {Array.from({ length: 3 }).map((_, i) => (
+      <div key={i} style={{ marginRight: '1rem' }}>
+        <LoadingSkeleton width={150} height={200} borderRadius={12} /> {/* imagen similar */}
+        <LoadingSkeleton width={120} height={20} borderRadius={4} style={{ marginTop: '0.5rem' }} /> {/* nombre */}
+        <LoadingSkeleton width={80} height={20} borderRadius={4} style={{ marginTop: '0.25rem' }} /> {/* precio */}
+      </div>
+    ))}
+  </div>
+</div>
 
-        <div className={styles.specifications}>
-          <h3>Specifications</h3>
-          {Array.from({ length: 6 }).map((_, i) => (
-            <LoadingSkeleton key={i} width="100%" height={20} borderRadius={4} style={{ marginBottom: '0.5rem' }} />
-          ))}
-
-          <div className={styles.similarProducts}>
-            <h3>Similar items</h3>
-            <div className={styles.similarList}>
-              {Array.from({ length: 3 }).map((_, i) => (
-                <LoadingSkeleton key={i} width={150} height={200} borderRadius={12} style={{ marginRight: '1rem' }} />
-              ))}
-            </div>
-          </div>
-        </div>
       </main>
     </div>
   )
@@ -165,6 +173,16 @@ if (loading) {
   return (
       <div className={`container ${styles.container}`}>
       <Header />
+      <div className={styles.backContainer}>
+
+       <Button
+          className={styles.backButton}
+          variant="secondary"
+          onClick={() => router.back()}
+        >
+          Back
+        </Button>
+      </div>
       <main className={styles.main}>
         <div className={styles.productDetail}>
           <div className={styles.imageContainer}>
@@ -175,8 +193,8 @@ if (loading) {
                   : product.imageUrl
               } 
               alt={product.name} 
-              width={400} 
-              height={400}
+              width={600} 
+              height={600}
               className={styles.productImage}
             />
           </div>
@@ -192,6 +210,7 @@ if (loading) {
                 </div>
             </div>
         
+        <div className={styles.productOptions}>
              {product.storageOptions && product.storageOptions.length > 0 && (
                 <StorageSelector
                   storageOptions={product.storageOptions}
@@ -207,6 +226,8 @@ if (loading) {
                 onSelect={setSelectedColorIndex}
               />
             )}
+        </div>
+
           <button 
             className={`${styles.addtoCard} ${selectedStorageIndex === null ? styles.addtoCardDisabled : ''}`}
             disabled={selectedStorageIndex === null}

@@ -17,12 +17,18 @@ export function ProductCard({ id, imageUrl, brand, name, basePrice }: ProductCar
         <Image 
           src={imageUrl} 
           alt={name} 
-          width={150} 
-          height={150}
+          width={345} 
+          height={345}
           className={styles.productImage}
         />
-        <h3 className={styles.productName}>{brand} {name}</h3>
-        <p className={styles.productPrice}>Precio: ${basePrice}</p>
+        <div className={styles.productInfo}>
+          <div className={styles.productInfoBrand}>
+            <h5 className={styles.productBrand}>{brand} </h5>
+            <h4 className={styles.productName}>{name}</h4>
+          </div>
+    
+          <p className={styles.productPrice}>{basePrice} EUR</p>
+         </div>
       </div>
     </Link>
   )

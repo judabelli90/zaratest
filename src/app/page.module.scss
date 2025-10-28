@@ -27,12 +27,6 @@ $button-secondary-hover-dark: #1a1a1a;
     --button-secondary-hover: #{$button-secondary-hover-dark};
   }
 }
-.header {
-  display:flex; 
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-}
 .count {
   color: #000;
   font-family: "Helvetica Neue", "Helvetica Neue 55", Arial, sans-serif;
@@ -54,19 +48,20 @@ $button-secondary-hover-dark: #1a1a1a;
   }
 }
 .resultsBoxes {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
-.productLink {
-  flex: 1 1 20%;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+@media (max-width: 767px) {
+  .resultsBoxes {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+ 
+@media (min-width: 768px) and (max-width: 1023px) {
+  .resultsBoxes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -175,35 +170,4 @@ a.secondary {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
-}
-
-// Responsive design
-@media (max-width: 600px) {
-  .page {
-    padding: 32px;
-    padding-bottom: 80px;
-  }
-
-  .main {
-    align-items: center;
-
-    ol {
-      text-align: center;
-    }
-  }
-
-  .ctas {
-    flex-direction: column;
-
-    a {
-      font-size: 14px;
-      height: 40px;
-      padding: 0 16px;
-    }
-  }
-
-  a.secondary {
-    min-width: auto;
-  }
-
 }
