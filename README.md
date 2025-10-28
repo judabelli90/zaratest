@@ -16,21 +16,52 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Overview
 
-## Learn More
+This project has 3 main pages:
 
-To learn more about Next.js, take a look at the following resources:
+1. / (page.tsx) – The main homepage.
+2. /cart – Shopping cart page.
+3. /product/[id] – Individual product detail page.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+For better maintainability and reusability, we have created a custom design system. All reusable components can be found in the components folder. Each component is documented and has its own README for guidance.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+Here are the main scripts defined in package.json:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run dev       # Run development server
+npm run build     # Build the project for production
+npm run start     # Start the production server
+npm run lint      # Run ESLint
+npm run test      # Run tests
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Testing
+
+All tests are located in the __tests__ folder. You can run them using:
+
+```bash
+npm run test
+```
+
+## Project Structure
+
+```
+.
+├── app/                  # Next.js pages and routing
+├── components/           # Reusable UI components (Design System)
+├── context/              # React context for global state (e.g., cart)
+├── public/               # Static assets (images, icons)
+├── styles/               # Global and modular CSS/SCSS
+├── __tests__/            # Unit and integration tests
+├── package.json
+└── README.md
+```
+
+
+This structure ensures scalability, reusability, and easy maintenance.
+
+
