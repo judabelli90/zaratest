@@ -1,95 +1,60 @@
-'use client'
-import { useState, useEffect } from 'react'
-import Image from "next/image";
-import Link from "next/link";
+import { render, screen, fireEvent } from '@testing-library/react'
+import { AppProvider } from '../context/AppContext'
+import Home from '../app/page'
 
-import { useAppContext } from '../context/AppContext'
-import { Header, SearchBar, ResultsCounter, ProductCard} from '@/components'
+// Mock de Next Router
+const mockPush = jest.fn()
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+  usePathname: () => '/',
+}))
 
-import styles from "./page.module.scss";
+// Productos de prueba
+const mockProducts = [
+  { id: 'SMG-S24U', name: 'Galaxy S24 Ultra', brand: 'Samsung', imageUrl: '', basePrice: 1000 },
+  { id: 'APL-I15PM', name: 'iPhone 15 Pro Max', brand: 'Apple', imageUrl: '', basePrice: 1200 },
+]
 
-export default function Home() {
-  const [products, setProducts] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [query, setQuery] = useState('') 
-  const { theme, toggleTheme } = useAppContext()
+beforeEach(() => {
+  jest.resetAllMocks()
+  // Mock global fetch antes de render
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(mockProducts),
+    })
+  ) as jest.Mock
+})
 
-    
-  const fetchProducts = async (search: string) => {
-      setLoading(true)
-      try {
-        // Subo el limit a 30 porque hay productos repetidos y luego los eliminamos. Así que mejor subir y luego hago slice
-        const res = await fetch(
-          `https://prueba-tecnica-api-tienda-moviles.onrender.com/products?limit=30${search ? `&search=${encodeURIComponent(search)}` : ''}`,
-          {
-            headers: {
-              'x-api-key': '87909682e6cd74208f41a6ef39fe4191',
-            },
-          }
-        )
+describe('Home page', () => {
+  it('filtra productos al escribir y navega al detalle', async () => {
+    render(
+      <AppProvider>
+        <Home />
+      </AppProvider>
+    )
 
-        if (!res.ok) throw new Error('Error al cargar los productos')
+    // Espera a que los productos se carguen
+    const galaxyProduct = await screen.findByText(/Galaxy S24 Ultra/i)
+    const iphoneProduct = await screen.findByText(/iPhone 15 Pro Max/i)
+    expect(galaxyProduct).toBeInTheDocument()
+    expect(iphoneProduct).toBeInTheDocument()
 
-        const data = await res.json()
-        
-        // Filtramos productos repetidos, como por ejemplo Xiaomi Redmi Note 13 Pro 5G
-        const uniqueProducts = Array.from(
-          new Map(data.map((item: any) => [item.id, item])).values()
-        ).slice(0, 20)
+    // Verifica ResultsCounter
+    expect(screen.getByText(/2 RESULTS/i)).toBeInTheDocument()
 
-        setProducts(uniqueProducts)
-      } catch (err: any) {
-        setError(err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
+    // Escribir en el input para filtrar
+    const input = screen.getByPlaceholderText(/Search for a smartphone.../i)
+    fireEvent.change(input, { target: { value: 'Galaxy' } })
 
-  useEffect(() => {
-    fetchProducts('')
-  }, [])    
+    // Espera a que el filtrado se aplique
+    expect(await screen.findByText(/Galaxy S24 Ultra/i)).toBeInTheDocument()
+    expect(screen.queryByText(/iPhone 15 Pro Max/i)).not.toBeInTheDocument()
+    expect(screen.getByText(/1 RESULTS/i)).toBeInTheDocument()
 
-  useEffect(() => {
-      const timeout = setTimeout(() => {
-        fetchProducts(query)
-      }, 500) // 500ms de espera para no saturar la API
-
-      return () => clearTimeout(timeout)
-    }, [query])
-
-  return (
-      <div className={`container ${styles.page}`}>
-      <Header />
-      <main className={styles.main}>
-        <div className="">
-                <SearchBar
-                  value={query}
-                  onChange={setQuery}
-                  placeholder="Search for a smartphone..."
-                />           
-
-         <ResultsCounter count={products.length} loading={loading} />
-
-        </div>
-        <div className={styles.searchResults}>
-          {loading && <p>Cargando productos...</p>}
-          {error && <p>Error: {error}</p>}
-
-          <div className={styles.resultsBoxes}>
-            {products.map((product: any) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                imageUrl={product.imageUrl}
-                brand={product.brand}
-                name={product.name}
-                basePrice={product.basePrice}
-              />
-            ))}
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-}
+    // Click en el producto y verifica navegación
+    const productLink = screen.getByText(/Galaxy S24 Ultra/i).closest('a')
+    fireEvent.click(productLink!)
+    expect(mockPush).toHaveBeenCalledWith('/product/SMG-S24U')
+  })
+})
