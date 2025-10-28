@@ -59,6 +59,27 @@ Barra de búsqueda reutilizable.
 
 ---
 
+### 📋 SpecificationsList
+Lista de especificaciones de un producto, mostrando clave y valor.
+
+**Props:**
+- `specs: Record<string, string>` - Objeto con las especificaciones del producto (clave = nombre de la spec, valor = detalle)
+
+**Ejemplo:**
+```tsx
+<SpecificationsList 
+  specs={{
+    Screen: "6.8 inches",
+    Resolution: "3200x1440",
+    Processor: "Snapdragon 8 Gen 3",
+    Battery: "5000 mAh"
+  }}
+/>
+```
+
+---
+
+
 ### 🎨 ColorSelector
 Selector de colores para productos.
 
@@ -120,6 +141,31 @@ Botón reutilizable con múltiples variantes.
   Añadir al carrito
 </Button>
 ```
+
+---
+
+### ⏳ LoadingSkeleton
+Skeleton para indicar carga de contenido dinámico, como imágenes, texto o tarjetas.
+
+**Props:**
+
+- `width?: string | number` - Ancho del skeleton (px o %)
+- `height?: string | number` - Alto del skeleton (px o %)
+- `borderRadius?: string | number` - Bordes redondeados
+- `count?: number` - Cantidad de skeletons a mostrar (para listas)
+- `className?: string` - Clases adicionales
+- `style?: React.CSSProperties` - Estilos inline adicionales
+
+**Ejemplo:**
+```tsx
+// Skeleton individual
+<LoadingSkeleton width={400} height={400} borderRadius={12} />
+
+// Skeleton para lista de 3 elementos
+<LoadingSkeleton count={3} width={150} height={200} borderRadius={8} style={{ marginRight: '1rem' }} />
+
+---
+
 
 ---
 
