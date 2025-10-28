@@ -1,0 +1,26 @@
+.specsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 40px 0 150px;
+
+}
+
+.specItem {
+  display: flex;
+  padding:16px 0;
+  border-bottom: 1px solid black;
+  font-size: 12px;
+  &:first-of-type {
+   border-top: 1px solid black;
+  }
+}
+
+.specKey {
+  text-transform: uppercase;
+  flex: 0 0 25%;
+}
+
+.specValue {
+  flex: 1 1 75%;
+}

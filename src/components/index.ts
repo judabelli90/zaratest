@@ -5,6 +5,8 @@ export { Button } from './Button/Button'
 export { ColorSelector } from './ColorSelector/ColorSelector'
 export { StorageSelector } from './StorageSelector/StorageSelector'
 export { ResultsCounter } from './ResultsCounter/ResultsCounter'
+export { SpecificationsList } from './SpecificationsList/SpecificationsList'
+export { LoadingSkeleton } from './LoadingSkeleton/LoadingSkeleton'
 export { ThemeProvider } from './ThemeProvider'
 
 

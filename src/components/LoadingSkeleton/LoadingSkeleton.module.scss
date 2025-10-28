@@ -1,0 +1,27 @@
+.skeleton {
+  background-color: #e0e0e0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -150px;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: loadingShimmer 1.2s infinite;
+  }
+}
+
+@keyframes loadingShimmer {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

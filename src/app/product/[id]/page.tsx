@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Image from "next/image"
 import Link from "next/link"
 import { useAppContext } from '../../../context/AppContext'
-import { Header } from '../../../components/Header/Header'
+import { Header, ColorSelector, StorageSelector, ProductCard, SpecificationsList,LoadingSkeleton } from '@/components'
 import styles from './product.module.scss'
 
 interface ColorOption {
@@ -96,16 +96,45 @@ export default function ProductDetail() {
       fetchProduct(productId)
     }
   }, [productId])
+if (loading) {
+  return (
+    <div className={`container ${styles.container}`}>
+      <Header />
+      <main className={styles.main}>
+        <div className={styles.productDetail}>
+          <div className={styles.imageContainer}>
+            {/* Skeleton para la imagen del producto */}
+            <LoadingSkeleton width={400} height={400} borderRadius={12} />
+          </div>
 
-  if (loading) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.loading}>
-          <p>Cargando producto...</p>
+          <div className={styles.productInfo}>
+            <LoadingSkeleton width="70%" height={30} borderRadius={6} />
+            <LoadingSkeleton width="30%" height={25} borderRadius={6} style={{ marginTop: '1rem' }} />
+            <LoadingSkeleton width="100%" height={50} borderRadius={8} style={{ marginTop: '1.5rem' }} />
+            <LoadingSkeleton width="100%" height={50} borderRadius={8} style={{ marginTop: '1rem' }} />
+            <LoadingSkeleton width="50%" height={40} borderRadius={8} style={{ marginTop: '2rem' }} />
+          </div>
         </div>
-      </div>
-    )
-  }
+
+        <div className={styles.specifications}>
+          <h3>Specifications</h3>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <LoadingSkeleton key={i} width="100%" height={20} borderRadius={4} style={{ marginBottom: '0.5rem' }} />
+          ))}
+
+          <div className={styles.similarProducts}>
+            <h3>Similar items</h3>
+            <div className={styles.similarList}>
+              {Array.from({ length: 3 }).map((_, i) => (
+                <LoadingSkeleton key={i} width={150} height={200} borderRadius={12} style={{ marginRight: '1rem' }} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
 
   if (error) {
     return (
@@ -134,7 +163,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className={styles.container}>
+      <div className={`container ${styles.container}`}>
       <Header />
       <main className={styles.main}>
         <div className={styles.productDetail}>
@@ -164,41 +193,19 @@ export default function ProductDetail() {
             </div>
         
              {product.storageOptions && product.storageOptions.length > 0 && (
-              <div className={styles.storageOptions}>
-                <h3 className={styles.productInfoTitle}>STORAGE ¿HOW MUCH SPACE DO YOU NEED?</h3>
-                <div className={styles.storageList}>
-                  {product.storageOptions.map((storage, index) => (
-                    <div 
-                      key={index} 
-                      className={`${styles.storageItem} ${selectedStorageIndex === index ? styles.storageItemSelected : ''}`}
-                      onClick={() => setSelectedStorageIndex(index)}
-                    >
-                      <span className={styles.storageCapacity}>{storage.capacity}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                <StorageSelector
+                  storageOptions={product.storageOptions}
+                  selectedIndex={selectedStorageIndex}
+                  onSelect={setSelectedStorageIndex}
+                />
+              )}
 
-                  {product.colorOptions && product.colorOptions.length > 0 && (
-              <div className={styles.colorOptions}>
-                <h3 className={styles.productInfoTitle}>Color. Pick your favorite</h3>
-                <div className={styles.colorList}>
-                  {product.colorOptions.map((color, index) => (
-                    <div 
-                      key={index} 
-                      className={`${styles.colorItem} ${selectedColorIndex === index ? styles.colorItemSelected : ''}`}
-                      onClick={() => setSelectedColorIndex(index)}
-                    >
-                      <div className={styles.colorImageContainer} style={{ backgroundColor: color.hexCode }}>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className={styles.selectedColor}>
-                 {product.colorOptions[selectedColorIndex].name}
-                </div>
-              </div>
+            {product.colorOptions && product.colorOptions.length > 0 && (
+              <ColorSelector
+                colors={product.colorOptions}
+                selectedIndex={selectedColorIndex}
+                onSelect={setSelectedColorIndex}
+              />
             )}
           <button 
             className={`${styles.addtoCard} ${selectedStorageIndex === null ? styles.addtoCardDisabled : ''}`}
@@ -212,54 +219,7 @@ export default function ProductDetail() {
         </div>
         <div className={styles.specifications}>
           <h3>Specifications</h3>        
-              <div className={styles.specsList}>
-                 <div className={styles.specItem}>
-                  <span className={styles.specKey}>Brand</span>
-                  <span className={styles.specValue}>{product.brand}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Name</span>
-                  <span className={styles.specValue}>{product.name}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Description</span>
-                  <span className={styles.specValue}>{product.description}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Screen</span>
-                  <span className={styles.specValue}>{product.specs.screen}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Resolution</span>
-                  <span className={styles.specValue}>{product.specs.resolution}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Processor</span>
-                  <span className={styles.specValue}>{product.specs.processor}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Main camera</span>
-                  <span className={styles.specValue}>{product.specs.mainCamera}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Selfie camera</span>
-                  <span className={styles.specValue}>{product.specs.selfieCamera}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Battery</span>
-                  <span className={styles.specValue}>{product.specs.battery}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>OS</span>
-                  <span className={styles.specValue}>{product.specs.os}</span>
-                </div>
-                <div className={styles.specItem}>
-                  <span className={styles.specKey}>Screen refresh rate</span>
-                  <span className={styles.specValue}>{product.specs.screenRefreshRate}</span>
-                </div>
-              </div>
-            
-      
+           <SpecificationsList specs={product.specs} />
            
             
             {product.similarProducts && product.similarProducts.length > 0 && (
@@ -267,23 +227,14 @@ export default function ProductDetail() {
                 <h3>Similar items</h3>
                 <div className={styles.similarList}>
                   {product.similarProducts.map((similar) => (
-                    <Link key={similar.id} href={`/product/${similar.id}`} className={styles.similarItem}>
-                      <Image 
-                        src={similar.imageUrl} 
-                        alt={similar.name} 
-                        width={0} 
-                        height={257}
-                        sizes="100vw"
-                        className={styles.similarImage}
-                      />
-                      <div className={styles.similarInfo}>
-                        <div className={styles.similarNaming}>
-                          <span className={styles.similarBrand}>{similar.brand}</span>
-                          <h4 className={styles.similarName}>{similar.brand} {similar.name}</h4>
-                        </div>
-                        <p className={styles.similarPrice}>${similar.basePrice}</p>
-                      </div>
-                    </Link>
+                    <ProductCard
+                      key={similar.id}
+                      id={similar.id}
+                      imageUrl={similar.imageUrl}
+                      brand={similar.brand}
+                      name={similar.name}
+                      basePrice={similar.basePrice}
+                    />
                   ))}
                 </div>
               </div>

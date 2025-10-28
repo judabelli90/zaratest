@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useAppContext } from '../context/AppContext'
-import { Header } from '../components/Header/Header'
+import { Header, SearchBar, ResultsCounter, ProductCard} from '@/components'
+
 import styles from "./page.module.scss";
 
 export default function Home() {
@@ -58,39 +59,35 @@ export default function Home() {
     }, [query])
 
   return (
-    <div className={styles.page}>
+      <div className={`container ${styles.page}`}>
       <Header />
       <main className={styles.main}>
         <div className="">
-                <input
-                type="text"
-                placeholder="Search for a smartphone..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                style={{ padding: '0.5rem', width: '100%' }}
-                className={styles.searchbox}
-              />
-          {loading ? (
-            <p className={styles.count}>0 RESULTS</p>
-          ) : (
-            <p className={styles.count}>{products.length} RESULTS</p>
-          )}
+                <SearchBar
+                  value={query}
+                  onChange={setQuery}
+                  placeholder="Search for a smartphone..."
+                />           
+
+         <ResultsCounter count={products.length} loading={loading} />
+
         </div>
         <div className={styles.searchResults}>
-              {loading && <p>Cargando productos...</p>}
+          {loading && <p>Cargando productos...</p>}
           {error && <p>Error: {error}</p>}
-           <div className={styles.resultsBoxes}>
-             {products.map((product: any) => (
-               <Link key={product.id} href={`/product/${product.id}`} className={styles.productLink}>
-                 <div className={styles.product}>
-                   <Image src={product.imageUrl} alt={product.name} width={150} height={150} />
-                   <h3>{product.brand} {product.name}</h3>
-                   <p>Precio: ${product.basePrice}</p>
-                 </div>
-               </Link>
-             ))}
-           </div>
-          
+
+          <div className={styles.resultsBoxes}>
+            {products.map((product: any) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                imageUrl={product.imageUrl}
+                brand={product.brand}
+                name={product.name}
+                basePrice={product.basePrice}
+              />
+            ))}
+          </div>
         </div>
       </main>
     </div>

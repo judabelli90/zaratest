@@ -2,8 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAppContext } from '../../context/AppContext'
-import { Header } from '../../components/Header'
-import { Button } from '../../components/Button/Button'
+import { Header,Button } from '@/components'
 
 import styles from './cart.module.scss'
 
@@ -13,7 +12,7 @@ export default function CartPage() {
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0)
 
   return (
-    <div className={styles.container}>
+    <div className={`container ${styles.mainSection}`}>
       <Header />
       
       <main className={styles.main}>
@@ -69,10 +68,12 @@ export default function CartPage() {
             </div>
 
             <div className={styles.footer}>
-              <Link href="/" className={styles.continueShopping}>
+              <Link href="/">
+              <Button variant="secondary" className={styles.continueShopping}>
                 Continuar comprando
-              </Link>
-              
+              </Button>
+            </Link>
+                          
               <div className={styles.totalSection}>
                 <div className={styles.totalRow}>
                   <span className={styles.totalLabel}>Total:</span>

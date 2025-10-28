@@ -15,6 +15,7 @@ export function SearchBar({ value, onChange, placeholder = "Search for a smartph
       onChange={(e) => onChange(e.target.value)}
       className={styles.searchbox}
     />
+    
   )
 }
 
